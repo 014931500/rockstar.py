@@ -1,0 +1,48 @@
+import requests , random 
+from requests import get, post
+
+
+Email_Target = "G3I@usa.com"#str(input(" ENter Email.com"))
+url= "https://signin.rockstargames.com/api/registration/rsg"
+head={
+    "Accept":"*/*",
+    "Accept-Encoding":"gzip, deflate, br",
+    "Accept-Language":"ar,en-US;q=0.9,en;q=0.8",
+    "Connection":"keep-alive",
+    "Content-Length":"1285",
+    "Content-Type":"application/json",
+    "Cookie":"rockstarweb_lang.prod=en-US; session-id=9b4bc9b3-3d17-43c4-8d02-5d3344e7de5c; Culture=en-US; RMT=; RockstarSession-prod=20037894fedcb6f0d9987a2b3fbb10ff; TS01ad8afd=01e681cfdbd0ca05bd37a4fab6f28d3ac99ff90f06bf85b3d2b1c48c4302b939fc23d50d29a67a70a05031f8f7a3d3c3bfadf132d7a9a480f9425adb67f0c0cc60b9afbd04; _ga=GA1.1.149195467.1705967486; _ga_PJQ2JYZDQC=GS1.1.1706024803.4.0.1706024803.0.0.0; OptanonConsent=isGpcEnabled=0&datestamp=Tue+Jan+23+2024+19%3A34%3A46+GMT%2B0300+(%D8%A7%D9%84%D8%AA%D9%88%D9%82%D9%8A%D8%AA+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A+%D8%A7%D9%84%D8%B1%D8%B3%D9%85%D9%8A)&version=202307.1.0&browserGpcFlag=0&isIABGlobal=false&hosts=&genVendors=&consentId=26b81fa2-33c9-4180-9526-b830cb472662&interactionCount=1&landingPath=NotLandingPage&groups=1%3A1%2C2%3A1%2C3%3A1%2C4%3A0&AwaitingReconsent=false; TS01a305c4=01e681cfdbc44d5a3d2f2085968283c56ecff5b201edcf64df16e069556bd0cbad52ba7f79c2a72efe0124ec217f07a723e0a5f772ec015445b0962564646ba3b1eb7e85414c37808a63e1f2e1d7237a72b5a6c64c50c4a6cfaab836591b264fd5dd6d80ef22a403094912fd13990aa023dd48ebd3f3d9a0ee2bfa05962eef6178ae6ff341611412e4ebfebdc1c2e760593a0405e6; uacdlftm=1706030246573",
+    "Dnt":"1",
+    "Host":"signin.rockstargames.com",
+    "Origin":"https://signin.rockstargames.com",
+    "Referer":"https://signin.rockstargames.com/create/user-form?cid=rsg",
+    "Sec-Ch-Ua":'"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+    "Sec-Ch-Ua-Mobile":"?0",
+    "Sec-Ch-Ua-Platform":"Windows",
+    "Sec-Fetch-Dest":"empty",
+    "Sec-Fetch-Mode":"cors",
+    "Sec-Fetch-Site":"same-origin",
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "X-Captchatoken-Arkose":"78517ad0978180491.9870975305|r=eu-west-1|meta=9|meta_width=311|metaiconclr=%23ffffff|guitextcolor=%23FBAF19|lang=en|pk=A5A70501-FCDE-4065-AF18-D9FAF06EF479|at=40|sup=1|rid=91|ag=101|cdn_url=https%3A%2F%2Frockstar-api.arkoselabs.com%2Fcdn%2Ffc|lurl=https%3A%2F%2Faudio-eu-west-1.arkoselabs.com|surl=https%3A%2F%2Frockstar-api.arkoselabs.com|smurl=https%3A%2F%2Frockstar-api.arkoselabs.com%2Fcdn%2Ffc%2Fassets%2Fstyle-manager",
+    'X-Captchatoken-Recaptchaenterprise':"03AFcWeA4uBXDxl8ZsMvu9-gKQuDMQcgx9N2s_p8E0tAtMX2hoHoQ-UQeSRef03rYH0pI3lh59h9pNhxpUPAMyPZyFOt9EI3e897TV_XTmJY22bVJemENH1kn-wELRd4Mifc2rzPCMlUpNxW0dcEcD9GwuKlj2QDaXT5oPS_8xlNK_3928w4Y7ph1RuBxjwjE5Uhxfl_RrBBFqeHk0XgtVkLxd7UjM9aqdwv3FKsnWn-e7pIUAdsYELSSi3A5YKfm5QfKK9M8C8dpBHsWwDtAH0QKt3AV2zzHbDD-sjE3sYkSEILQMDYghDAPsZYu7IMs6yc2dwCFN-xHzmGOjvgm6mFiWzz_ID_1uYy8fKVNPt9M_ChLXmMYzeSVo-HlKU2U-fjINRBc-94TNO_HR1TiFbljfWBC8BJF0UqfDo2XWX26sFCTiPMLEfnvQYSLz-odLqaZ8FYCk41IZyBZfIM9bRhcBnh_5IDQ4iPBhopVcLzmEkx5NNAcuzvF8aP0loXOmKGbMQHACdK6VH6x-SfSs1Y3alKaUgBY7-aVEKlxrJuO6WvOirTAHcwq29DNtlJaTWyp-6tHicNgD92h8r6BbXjLI9fsK9x8HmJsnhHbvFvjwXm_PRud0JtROPuw24Uh9WoB3H22l2hxKbU7I3il4U9sVxH_wLrt5Sa01ttxdkeX3l4Mk9SA2WoO7Jhwm6gR-tuYLDSd62cfKd93SSSky9aIX8XZhBrxtm00LInZ5Cb8D0Ak5ae9gGbLevblOS6TA1zp1ubWizFCaEE9ZJd7cX85FBRicmLxcw4vCk54xM6u-_GJgJ65vxG1N1sHoCf8P7BiR2CTm8kQeqNu64q1J0k12JuDCmsUMDQodP0EnwVPx13qYLtdQ_jnQpKS987vphaYni4oVucDGgZfXdxMkIW7V4-M30teoGjMzuPU5GCjH2JJzp6LnIv_YWlQUxDIeM2ctFKHMbmD24RSZyp6DY43LP3ZaRU1oWM1ayjGLpPFt9Ma9DjLo650arnB1xo7XXXVwo-qWpb1Lr5RDGBm6_7JIxvtIQLhO4-7oXgUPPa7WiREFs-ybf4-li3BJ3Dg-hLaJNsK8qTfdCGvZ1zkM4WaIaG6rt-Z3UIF8men_g8WxCYPYTWsESlLNQTpy4AyRsPbYIbjbi2wPr_eY1QKZJHLrPDTaYUSe8BHZdZhfx0WZOZ4gbEhXH5xwZnCrDjO9UutbTsjCYIrdcuv9nR4DUTY7KsLMpoGqzHPD629WZY9q0MSjUqz8-2Exy136AO313elsDsyfiKK7IEX8Nq0aF3tDfegWAbJ3aur2KoUEAc1H0MjcRCS0_eyZZ-eSlkJMEEY6GMDr7dKLr_-Pv98sKi8IPVDVAMdPpXJv8TrWkSbzV3WNwzHBl5q8Sef14ohYiD2MPT3NQ0TqXSYY1IDDvu7vx3NzPHDDA-w3ALIUuuiu4rBmKTlJiOarPDFUHcQKsc1-wmQ29oUYl1NEZ9NdIzMhhHIn6GQE9hfCQsP-29H8MOFxMufM2KHHaDP_LzIlCKPmCcD-CnXXccn-4mHXVfzPoc3pZrwI4ga7leTKOhCxtXls61EakgH5X9UijnfmGMwaajcOr_Jpdr-s5c82NsQ3TMhi4rh7wKV61ILew7Gz39EkC_g4Pi5dec19IoiQ0YOgx0N_cqgwVeCdVgWqrBtS06rHTSuEOG1QbP6NkeWcP9I708OXf9eRCLMbsPEMGks38-qWYQoRo8tx_BiSfosMVlq8S-TcNGjoRUGzclADPJS89mWF_m55AoA_xoT_d4uYo1Thp_ygbtCPDyUuQtQUwLshiUCUxHuzeJOycnQtLWYROnL6GJw_k-LjgK7ejOXVg7meWD7i_8C92Ydum2BC9qy5RoGmKvOXnFdBJ4-_TCdLtDtZGSM_MHs_g9vcEFhSUUvqAhs-fd_IEZlo6H4EF4lbjEs_3TIgy-lfC4RgzVNJg6Z07oKizl8WJeWfjFXEJvv7-JL-2sRHd85blA9WGqJe_xdtQBwpI7eSQf23cUf67_X0ueDgsyaZOZHewzs3ATJEy1v--ce7UEJj4gsZO24F6SKDpX2HcpXkVO4-wHFbsQWgk7o1tgWhV-7Cl819n0nFQX6xu05FjDPjrGbc92hjz7zyEQ",
+    "X-Castle-Request-Token":"2tPrjq7sg6Co642coKKokJmy7Y2gl4Cgg-uokqq7iq--lJKVQZftruoqkxpGphvvQ6me8T9RXhO42jXThuIrxIWIWc7Xzq3dhI4okarxHti542wkh6YprdggjIeCm7jSj7Yn0PiOKr_KhlG564VK_7LHG_CvvkK-44Zco6enf_C22QXgvMl8uenfH-unkR3krslqoPeFTofii2C588Ye47DHGOanwWCY06Rn_KeFQrviyWy15IJE-aeqQ6LohE7_ttsb_rfHG_63yXix4YhZuajcGOep2h28j49PtrWKHua3nijX_WIrRI_cGeO-j03isHV-kcmuZ5WnwWK-84xH_KegRaTihQOCrsl-mMPJbKLmmUO55JoL5rXZC_i3kRvgt9kYlcbZAvDDgFm15J0YlLbYC6b0th6Pt8lbo9jcdOCryW_jw9ga-SPwGjIHZgThZWmk_7bQHOCn2hHgt9Mb4Kcxnn-P6Z7xQlnWG4c6Kg0VzczQbOrcjPCWqld4S0FThOkn28aaQrGou0Kp5o1DxIyIWfzihwaF1MVOvs2pt9A2L4fQVyOARERSln47R5taMUKSuD6BS7DHLSvQh-mRZ3cGnED3iVuM9ISXbCBOY5VtZXNhqvsr_YfrA9B4Yg",
+    "X-Lang":"en-US",
+    "X-Requested-With":"XMLHttpRequest"}
+
+data= {
+    "country": "SA",
+    "dob": "1981-05-17T00:00:00.000Z",
+    "email": "G3I@USA.COM",
+    "nickname": "DndsGHost9487",
+    "password": "Asdcvb@@"}
+
+re = requests.post(url=url, headers=head, data=data)
+ 
+if re.status_code==400:
+    print(re)
+elif '"success":false':
+    print(re)
+#else:
+    #print(re.text)
+
+
